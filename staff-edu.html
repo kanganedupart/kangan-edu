@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>강안교육 파트 직원 필수 교육 (음성파일 버전)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --primary: #1565c0;
+  --primary-dark: #0d47a1;
+  --secondary: #00838f;
+  --accent: #f57c00;
+  --success: #2e7d32;
+  --danger: #c62828;
+  --warning: #f9a825;
+}
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.container {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+  max-width: 1100px;
+  width: 100%;
+  overflow: hidden;
+  animation: slideIn 0.6s ease-out;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 50px 40px;
+  text-align: center;
+  position: relative;
+}
+.header h1 {
+  font-size: 36px;
+  font-weight: 900;
+  margin-bottom: 15px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.header .subtitle {
+  font-size: 18px;
+  opacity: 0.95;
+  margin-bottom: 10px;
+}
+.header .info {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-top: 15px;
+}
+.content {
+  padding: 50px;
+}
+.login-container {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+.login-container h2 {
+  color: #212121;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.login-container p {
+  color: #757575;
+  margin-bottom: 40px;
+}
+.form-group {
+  margin-bottom: 25px;
+  text-align: left;
+}
+.form-group label {
+  display: block;
+  color: #212121;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.form-control {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(21, 101, 192, 0.1);
+}
+.btn {
+  width: 100%;
+  padding: 18px;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  box-shadow: 0 8px 24px rgba(21, 101, 192, 0.3);
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 36px rgba(21, 101, 192, 0.4);
+}
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+  margin-top: 15px;
+}
+.btn-success {
+  background: linear-gradient(135deg, var(--success) 0%, #43a047 100%);
+  color: white;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.info-box {
+  background: #f5f5f5;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: left;
+  margin-top: 30px;
+}
+.info-box h3 {
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.info-box ul {
+  color: #757575;
+  font-size: 14px;
+  line-height: 2;
+  list-style-position: inside;
+}
+.info-box strong {
+  color: var(--primary);
+}
+.progress-section {
+  margin-bottom: 40px;
+}
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.progress-title {
+  color: #212121;
+  font-weight: 600;
+  font-size: 14px;
+}
+.progress-stats {
+  color: #757575;
+  font-size: 14px;
+  font-weight: 500;
+}
+.progress-bar-container {
+  height: 12px;
+  background: #e0e0e0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border-radius: 20px;
+  transition: width 0.6s ease;
+}
+.voice-section {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  padding: 25px;
+  border-radius: 16px;
+  margin-bottom: 30px;
+  text-align: center;
+  border: 2px solid var(--warning);
+}
+.voice-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.voice-icon {
+  font-size: 32px;
+}
+.voice-icon.playing {
+  animation: pulse 0.8s infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+.voice-text {
+  color: #212121;
+  font-weight: 600;
+  font-size: 16px;
+}
+.voice-btn {
+  padding: 14px 35px;
+  background: linear-gradient(135deg, var(--accent) 0%, #fb8c00 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+.voice-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+.voice-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.voice-btn.playing {
+  background: linear-gradient(135deg, var(--danger) 0%, #d32f2f 100%);
+}
+.voice-required {
+  background: #fff;
+  border: 2px solid var(--warning);
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.voice-required-text {
+  color: #856404;
+  font-size: 14px;
+  font-weight: 600;
+}
+.slide-wrapper {
+  background: white;
+  border-radius: 16px;
+  border: 2px solid #e0e0e0;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+.slide-header {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+  padding: 25px 30px;
+  border-bottom: 2px solid #e0e0e0;
+}
+.slide-number {
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.slide-title {
+  color: #212121;
+  font-size: 26px;
+  font-weight: 900;
+}
+.slide-body {
+  padding: 40px;
+  min-height: 400px;
+}
+.slide-content h2 {
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 25px;
+  animation: fadeInUp 0.6s ease-out;
+}
+.slide-content h3 {
+  color: var(--primary);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 30px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid var(--primary);
+  animation: fadeInUp 0.6s ease-out;
+}
+.slide-content p {
+  color: #212121;
+  font-size: 16px;
+  line-height: 1.9;
+  margin-bottom: 15px;
+  animation: fadeInUp 0.6s ease-out;
+}
+.slide-content ul, .slide-content ol {
+  margin: 20px 0 20px 25px;
+}
+.slide-content li {
+  color: #212121;
+  font-size: 16px;
+  line-height: 1.9;
+  margin-bottom: 12px;
+  animation: fadeInUp 0.5s ease-out;
+  animation-fill-mode: both;
+}
+.slide-content li:nth-child(1) { animation-delay: 0.1s; }
+.slide-content li:nth-child(2) { animation-delay: 0.2s; }
+.slide-content li:nth-child(3) { animation-delay: 0.3s; }
+.slide-content li:nth-child(4) { animation-delay: 0.4s; }
+.slide-content li:nth-child(5) { animation-delay: 0.5s; }
+.slide-content li:nth-child(6) { animation-delay: 0.6s; }
+.slide-content li:nth-child(7) { animation-delay: 0.7s; }
+.slide-content li:nth-child(8) { animation-delay: 0.8s; }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.slide-content strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+.highlight-box {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-left: 5px solid var(--primary);
+  padding: 25px 30px;
+  margin: 25px 0;
+  border-radius: 12px;
+  animation: fadeInUp 0.8s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+.highlight-box strong {
+  display: block;
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+.warning-box {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border-left: 5px solid var(--warning);
+  padding: 25px 30px;
+  margin: 25px 0;
+  border-radius: 12px;
+  animation: fadeInUp 0.8s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+.warning-box strong {
+  display: block;
+  color: var(--warning);
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+.danger-box {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  border-left: 5px solid var(--danger);
+  padding: 25px 30px;
+  margin: 25px 0;
+  border-radius: 12px;
+  animation: fadeInUp 0.8s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+.danger-box strong {
+  display: block;
+  color: var(--danger);
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+.navigation {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+.nav-btn {
+  flex: 1;
+  padding: 18px;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.nav-btn-prev {
+  background: #e0e0e0;
+  color: #212121;
+}
+.nav-btn-prev:hover:not(:disabled) {
+  background: #bdbdbd;
+}
+.nav-btn-next {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+}
+.nav-btn-next:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+.exam-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.exam-header h2 {
+  color: var(--primary);
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 15px;
+}
+.exam-info {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  text-align: center;
+  border: 2px solid var(--success);
+}
+.question-card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.question-number {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.question-text {
+  color: #212121;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.option-label {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 12px;
+}
+.option-label:hover {
+  background: #e3f2fd;
+  border-color: var(--primary);
+}
+.option-label input[type="radio"] {
+  margin-right: 15px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.option-label.correct {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border-color: var(--success);
+  border-width: 3px;
+}
+.option-label.incorrect {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  border-color: var(--danger);
+  border-width: 3px;
+}
+.result-container {
+  text-align: center;
+  padding: 40px;
+}
+.result-icon {
+  font-size: 100px;
+  margin-bottom: 25px;
+}
+.result-title {
+  font-size: 40px;
+  font-weight: 900;
+  margin-bottom: 20px;
+}
+.result-title.pass {
+  color: var(--success);
+}
+.result-title.fail {
+  color: var(--danger);
+}
+.result-score {
+  font-size: 72px;
+  font-weight: 900;
+  margin: 30px 0;
+}
+.result-score.pass {
+  color: var(--success);
+}
+.result-score.fail {
+  color: var(--danger);
+}
+.result-message {
+  background: #f5f5f5;
+  padding: 25px;
+  border-radius: 12px;
+  margin: 30px 0;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.admin-table th, .admin-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+.admin-table th {
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+}
+.admin-link {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  opacity: 0.2;
+  transition: opacity 0.3s;
+}
+.admin-link:hover {
+  opacity: 1;
+}
+.hidden {
+  display: none !important;
+}
+@media (max-width: 768px) {
+  .content { padding: 30px 20px; }
+  .header { padding: 40px 25px; }
+  .header h1 { font-size: 26px; }
+  .slide-body { padding: 25px 20px; }
+  .navigation { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>🎓 강안교육 파트 직원 필수 교육과정</h1>
+<p class="subtitle">Professional Training Program</p>
+<p class="info">📋 14개 학습 모듈 | ⏱️ 약 40분 | 📝 최종 평가 10문항</p>
+</div>
+
+<div id="loginPage" class="content">
+<div class="login-container">
+<h2>교육생 등록</h2>
+<p>교육을 시작하기 위해 성함을 입력해주세요</p>
+<div class="form-group">
+<label for="userName">이름 (실명)</label>
+<input type="text" id="userName" class="form-control" placeholder="예: 홍길동">
+</div>
+<button class="btn btn-primary" onclick="login()">교육 시작하기 →</button>
+<div class="info-box">
+<h3>📌 교육 안내</h3>
+<ul>
+<li>총 4개 챕터로 구성된 필수 교육 과정입니다</li>
+<li>각 슬라이드는 <strong>음성 안내를 끝까지 청취</strong>해야 다음으로 진행됩니다</li>
+<li>교육 완료 후 <strong>10문항의 최종 평가 시험</strong>이 있습니다</li>
+<li>합격 기준은 <strong>80점 이상</strong>입니다</li>
+<li>중간에 중단하셔도 진행 상황이 자동 저장됩니다</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="educationPage" class="content hidden">
+<div class="progress-section">
+<div class="progress-header">
+<div class="progress-title">학습 진행률</div>
+<div class="progress-stats" id="progressStats"></div>
+</div>
+<div class="progress-bar-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+</div>
+
+<div class="voice-section">
+<div class="voice-status">
+<div class="voice-icon" id="voiceIcon">🔊</div>
+<div class="voice-text" id="voiceText">음성 안내를 재생하세요</div>
+</div>
+<button class="voice-btn" id="voiceBtn" onclick="playVoice()">▶ 음성 듣기</button>
+<div class="voice-required">
+<div style="font-size: 24px;">⚠️</div>
+<div class="voice-required-text">음성 안내를 끝까지 들어야 다음 슬라이드로 이동할 수 있습니다</div>
+</div>
+</div>
+
+<div class="slide-wrapper">
+<div class="slide-header">
+<div class="slide-number" id="slideNumber"></div>
+<h1 class="slide-title" id="slideTitle"></h1>
+</div>
+<div class="slide-body">
+<div class="slide-content" id="slideContent"></div>
+</div>
+</div>
+
+<div class="navigation">
+<button class="nav-btn nav-btn-prev" id="prevBtn" onclick="prevSlide()">← 이전</button>
+<button class="nav-btn nav-btn-next" id="nextBtn" onclick="nextSlide()" disabled>다음 →</button>
+</div>
+</div>
+
+<div id="examPage" class="content hidden">
+<div class="exam-header">
+<h2>📝 최종 평가 시험</h2>
+<p>교육 내용을 얼마나 이해하셨는지 확인하는 시간입니다</p>
+</div>
+<div class="exam-info">
+<strong>📊 시험 정보:</strong> 총 10문항 | 합격 기준 80점 이상 | 모든 문항 필수 응답
+</div>
+<div id="quizContainer"></div>
+<div class="navigation">
+<button class="btn btn-primary" onclick="reviewAnswers()">📋 답안 검토하기</button>
+<button class="btn btn-success" onclick="submitQuiz()" id="submitBtn" style="display: none;">✅ 시험 제출하기</button>
+</div>
+</div>
+
+<div id="resultPage" class="content hidden">
+<div class="result-container" id="resultContainer"></div>
+<button class="btn btn-primary" onclick="showAnswers()">정답 및 해설 보기</button>
+<button class="btn btn-secondary" onclick="restartEducation()">처음부터 다시 시작</button>
+</div>
+
+<div id="adminPage" class="content hidden">
+<h2 style="color: var(--primary); margin-bottom: 30px;">👨‍💼 관리자 대시보드</h2>
+<button class="btn btn-secondary" onclick="backToLogin()">← 뒤로가기</button>
+<table class="admin-table">
+<thead>
+<tr>
+<th>이름</th>
+<th>시험 점수</th>
+<th>합격 여부</th>
+<th>제출 시간</th>
+</tr>
+</thead>
+<tbody id="adminTableBody"></tbody>
+</table>
+</div>
+</div>
+
+<a href="#" class="admin-link" onclick="showAdminPage(); return false;">🔐 관리자</a>
+
+<script>
+let currentUser = '';
+let currentSlide = 0;
+let totalSlides = 0;
+let audioPlaying = false;
+let audioCompleted = false;
+let currentAudio = null;
+
+const educationData = [
+  {
+    title: "강안교육 소개",
+    content: `
+      <h2>강안교육에 오신 것을 환영합니다</h2>
+      <div class="highlight-box">
+        <strong>🎓 교육 목표</strong>
+        <p>본 교육은 파트 직원으로서 학생 관리 업무를 수행하는 데 필요한 핵심 지식과 규정을 숙지하기 위한 필수 과정입니다.</p>
+      </div>
+      <h3>교육 구성</h3>
+      <ul>
+        <li><strong>챕터 1:</strong> 공통 안내사항 (4개 모듈)</li>
+        <li><strong>챕터 2:</strong> 근무 패드 사용법 (4개 모듈)</li>
+        <li><strong>챕터 3:</strong> 출석 관리 (3개 모듈)</li>
+        <li><strong>챕터 4:</strong> 시간표 이해 (3개 모듈)</li>
+      </ul>
+      <h3>평가 안내</h3>
+      <p>교육 완료 후 10문항의 최종 평가 시험이 진행됩니다.</p>
+      <div class="warning-box">
+        <strong>⚠️ 중요 안내</strong>
+        <p>각 슬라이드의 음성 안내를 끝까지 들어야 다음 슬라이드로 진행할 수 있습니다. 이는 교육 내용의 완전한 이해를 위한 필수 절차입니다.</p>
+      </div>
+    `
+  },
+  {
+    title: "1️⃣ 공통 안내사항",
+    content: `
+      <h2>강안교육 파트 직원 역할</h2>
+      <div class="highlight-box">
+        <strong>핵심 업무: 학생 관리 및 감시</strong>
+        <p>강안교육은 관리를 가장 중요하게 여기며, 학생들이 규정을 지키도록 감시하고 통제하는 것이 주된 업무입니다.</p>
+      </div>
+      <h3>관리의 의미</h3>
+      <ul>
+        <li>학생 상담이나 멘탈 케어보다는 <strong>규정 준수 감시</strong>가 핵심</li>
+        <li>공부 외적인 행위를 하지 못하도록 <strong>강제하는 역할</strong></li>
+        <li>순찰이 관리의 기본이 되는 행위</li>
+      </ul>
+      <h3>순찰의 중요성</h3>
+      <p>학생들이 규정 위반을 하지 않는 이유는 <strong>지속적인 순찰</strong> 때문입니다.</p>
+      <div class="danger-box">
+        <strong>💡 명심하세요!</strong>
+        <p>학생들에게 "모든 구역이 관리되고 있다"는 인식을 심어주는 것이 가장 중요합니다.</p>
+      </div>
+    `
+  },
+  {
+    title: "1️⃣ 공통 안내사항",
+    content: `
+      <h2>기본 주의사항 (1/2)</h2>
+      <h3>1. 출퇴근 시간 엄수 ⏰</h3>
+      <p>학생들이 시간에 맞춰 등원하므로, 근무자도 정확한 시간에 출근하여 관리 공백이 없도록 해야 합니다.</p>
+      <h3>2. 학생과 사적인 대화 금지 🚫</h3>
+      <div class="danger-box">
+        <strong>업무 외적인 모든 대화 금지</strong>
+        <ul>
+          <li>학생이 인사를 건네면 목례로만 응답</li>
+          <li>업무 외 문의는 지원실로 안내</li>
+          <li>지속적인 사담 시도 시 직원에게 인계</li>
+        </ul>
+      </div>
+      <h3>⚠️ 졸업생·퇴원생도 마찬가지!</h3>
+      <ul>
+        <li>연락처, SNS 교환 절대 금지</li>
+        <li>먼저 팔로우 요청이 와도 무시</li>
+        <li>근무 종료 후에도 학생과 연락 금지</li>
+      </ul>
+    `
+  },
+  {
+    title: "1️⃣ 공통 안내사항",
+    content: `
+      <h2>기본 주의사항 (2/2)</h2>
+      <h3>3. 핸드폰·컴퓨터 사용 금지 📵</h3>
+      <p>업무 목적 외에 개인 기기 사용 금지. 순찰과 학생 확인에만 집중해야 합니다.</p>
+      <h3>4. 식사 이동 관리 🍽️</h3>
+      <p>강의실별로 식사 시간이 통제됩니다. 하이웍스 메신저 '바른식당' 방에서 지시를 확인하세요.</p>
+      <h3>5. 지각·결근·근무 종료 📞</h3>
+      <p>부득이한 사유가 있을 경우 <strong>반드시 사전에</strong> 알려주세요.</p>
+      <h3>6. 금연 학원 🚭</h3>
+      <div class="danger-box">
+        <ul>
+          <li>학생이 볼 수 있는 모든 장소에서 흡연 금지</li>
+          <li>연초 담배는 냄새 문제로 금지</li>
+          <li>전자담배는 옥상에서만 가능</li>
+        </ul>
+      </div>
+    `
+  },
+  {
+    title: "1️⃣ 공통 안내사항",
+    content: `
+      <h2>출퇴근 및 복장 규정</h2>
+      <h3>출퇴근 체크 📋</h3>
+      <ul>
+        <li>개별 출결번호 입력 (통상 핸드폰 뒷자리 4자리)</li>
+        <li>출근·퇴근 시 반드시 체크</li>
+        <li>급여를 위한 근무 시간 확인 필수</li>
+      </ul>
+      <h3>유니폼 착용 👔</h3>
+      <ul>
+        <li>출결 체크 후 즉시 유니폼 착용</li>
+        <li>명찰 필수 패용</li>
+        <li>근무 종료 시까지 벗지 말 것</li>
+        <li>휴게 시간에도 원내에서는 계속 착용</li>
+      </ul>
+      <h3>복장 규정 (금지 항목) ❌</h3>
+      <div class="warning-box">
+        <strong>신발:</strong> 샌들, 슬리퍼, 크록스<br>
+        <strong>하의:</strong> 반바지, 짧은 치마, 찢어진 청바지, 츄리닝 바지<br>
+        <strong>상의:</strong> 후드 달린 옷 전부, 민소매, 츄리닝<br>
+        <strong>기타:</strong> 모자, 과한 피어싱, 과한 장신구
+      </div>
+    `
+  },
+  {
+    title: "2️⃣ 근무 패드 사용법",
+    content: `
+      <h2>업무용 패드 프로그램</h2>
+      <div class="highlight-box">
+        <strong>총 3가지 프로그램 사용</strong>
+        <p>근무자 간 소통, 학생 관리, 출석 체크를 위한 필수 도구입니다.</p>
+      </div>
+      <h3>패드 준비 확인 사항</h3>
+      <ul>
+        <li>출근 시 업무용 패드 수령 및 충전 상태 확인</li>
+        <li>패드가 없거나 충전이 안 된 경우 즉시 근무자에게 보고</li>
+        <li>근무 중 핸드폰 대신 패드로 업무 진행</li>
+      </ul>
+      <div class="warning-box">
+        <strong>⚠️ 중요 사항</strong>
+        <p>학생들은 등원 즉시 핸드폰을 반납하므로, 근무자의 개인 핸드폰 사용은 불만을 야기합니다.</p>
+      </div>
+    `
+  },
+  {
+    title: "2️⃣ 근무 패드 사용법",
+    content: `
+      <h2>1. 하이웍스 메신저 💬</h2>
+      <h3>📢 파트 공지방</h3>
+      <ul>
+        <li>직원이 파트 근무자에게 공지하는 채팅방</li>
+        <li>지시사항, 업무 사항 확인</li>
+        <li>근무자가 직원에게 전달할 내용도 이 방에 작성</li>
+      </ul>
+      <h3>🍽️ 바른식당 방</h3>
+      <ul>
+        <li>점심·저녁 식사 시간에 강의실 통제용</li>
+        <li>식당 근무자가 "어느 강의실을 어느 층으로" 보내야 할지 공지</li>
+        <li>올라오는 순서대로 확인하여 식사 이동 진행</li>
+      </ul>
+      <h3>👥 파트 근무자 방</h3>
+      <ul>
+        <li>당일 출근한 파트 근무자들끼리 협조사항 소통</li>
+        <li>⚠️ 주의: 근무 중 잡담으로 메신저를 계속 보지 말 것!</li>
+      </ul>
+    `
+  },
+  {
+    title: "2️⃣ 근무 패드 사용법",
+    content: `
+      <h2>2. 스프레드시트 - 관리대장 📊</h2>
+      <div class="highlight-box">
+        <strong>학생 특이사항 기록</strong>
+        <p>근무 성실성 증명 + 문제 학생 식별을 위한 필수 작성 문서</p>
+      </div>
+      <h3>작성 방법</h3>
+      <ol>
+        <li>스프레드시트 앱 → '관리대장' 시트 열기</li>
+        <li>출결번호 입력란 선택</li>
+        <li>학생에게 출결번호 입력하도록 안내</li>
+        <li>자동 완성: 시간, 이름, 아이디, 강의실</li>
+        <li>사유 선택 (졸음, 이동, 기타 특이사항)</li>
+      </ol>
+      <div class="danger-box">
+        <strong>⚠️ 즉시 인계 대상 (관리대장 작성 X)</strong>
+        <ul>
+          <li>졸음 3회 이상</li>
+          <li>학생 간 대화</li>
+          <li>무단 전자기기·핸드폰 사용</li>
+        </ul>
+        <p>→ 즉시 제재하고 직원에게 인계!</p>
+      </div>
+    `
+  },
+  {
+    title: "2️⃣ 근무 패드 사용법",
+    content: `
+      <h2>3. 이코딩 - 출석 체크 ✅</h2>
+      <h3>사용 방법</h3>
+      <ol>
+        <li>이코딩 앱 실행</li>
+        <li>메뉴 → 학원 출결 → 출결 리스트</li>
+        <li>학생 월간 출결 → "오늘 등원 클래스" 버튼</li>
+        <li>출석 체크할 강의실 선택</li>
+        <li>메뉴 버튼 → 출석부 확인</li>
+        <li>"오늘" 버튼으로 당일 출결 확인</li>
+      </ol>
+      <h3>출석 체크 순서</h3>
+      <ol>
+        <li><strong>초록색 시간</strong> 표시 학생 먼저 호명</li>
+        <li><strong>등원 예정</strong> 학생은 호명하지 않고 1차 확인</li>
+        <li>호명되지 않은 학생 확인 → 패드 체크 안내</li>
+      </ol>
+      <div class="warning-box">
+        <strong>⚠️ 특이사항 인계</strong>
+        <p>시간 체크되었으나 자리에 없거나, 호명되지 않았으나 앉아있는 경우 → 하이웍스로 직원에게 즉시 공유!</p>
+      </div>
+    `
+  },
+  {
+    title: "3️⃣ 출석 관리",
+    content: `
+      <h2>등원 출석 체크 (오전)</h2>
+      <div class="highlight-box">
+        <strong>7:50 ~ 8:10 진행</strong>
+        <p>학생들의 등원 상황을 정확히 파악하는 중요한 시간입니다.</p>
+      </div>
+      <h3>출석 전 순찰 (7:30~7:50)</h3>
+      <ul>
+        <li>각 강의실 및 화장실 지속 순찰</li>
+        <li>핸드폰 사용, 대화 등 규정 위반 단속</li>
+        <li>7:50까지 학생 입실 독려</li>
+        <li>자는 학생 깨우기</li>
+        <li>이동 인원 전부 통제</li>
+      </ul>
+      <h3>출석 체크 진행</h3>
+      <ol>
+        <li>이코딩에서 초록색 시간 표시 학생 호명</li>
+        <li>등원 예정 학생 중 호명 안 된 학생 확인</li>
+        <li>패드 미체크자 안내</li>
+        <li>강의실 인원 수 = 출석부 인원 수 일치 확인</li>
+      </ol>
+    `
+  },
+  {
+    title: "3️⃣ 출석 관리",
+    content: `
+      <h2>복귀 출석 체크 (점심·저녁)</h2>
+      <h3>식사 이동 안내</h3>
+      <ul>
+        <li>칠판에 식사 장소와 복귀 출석 시간 작성</li>
+        <li>식사 시간: 출발 시간 + 50분</li>
+        <li>예시) 식사(2층) ~ 13:00</li>
+      </ul>
+      <h3>복귀 출석 진행</h3>
+      <ul>
+        <li>복귀 출석 시간에 맞춰 이코딩으로 출석 체크</li>
+        <li>이미 오전에 체크된 학생 위주로 확인</li>
+        <li>호명되지 않은 학생 확인 (늦은 등원 가능성)</li>
+      </ul>
+      <div class="danger-box">
+        <strong>결과 보고</strong>
+        <p>특이사항은 하이웍스 메신저로 직원에게 즉시 전달</p>
+      </div>
+    `
+  },
+  {
+    title: "3️⃣ 출석 관리",
+    content: `
+      <h2>출석 취합 및 보고 📋</h2>
+      <h3>취합 구분 (오전 출석 기준)</h3>
+      <ol>
+        <li><strong>정상 출석</strong>: 7:50 이전 등원 + 패드 체크 완료</li>
+        <li><strong>이동 인원</strong>: 7:50 ~ 8:00 사이 등원</li>
+        <li><strong>지각</strong>: 8:00 이후 등원</li>
+        <li><strong>미체크</strong>: 제시간 왔으나 패드 미체크</li>
+        <li><strong>미등원</strong>: 아예 등원하지 않음</li>
+      </ol>
+      <h3>보고 방법</h3>
+      <ul>
+        <li>취합 양식에 따라 구분하여 작성</li>
+        <li>하이웍스 파트 공지방에 전달</li>
+        <li>특이사항은 즉시 보고</li>
+      </ul>
+    `
+  },
+  {
+    title: "4️⃣ 시간표 이해",
+    content: `
+      <h2>A타입 vs B타입 시간표</h2>
+      <div class="highlight-box">
+        <strong>A타입 = 홀수층 / B타입 = 짝수층</strong>
+        <p>단, 703호는 예외적으로 B타입 시간표 적용</p>
+      </div>
+      <h3>두 타입의 차이</h3>
+      <ul>
+        <li><strong>A타입:</strong> 국어·수학·매일깨기가 <strong>저녁</strong>에 배치</li>
+        <li><strong>B타입:</strong> 국어·수학·매일깨기가 <strong>오전</strong>에 배치</li>
+      </ul>
+      <h3>기본 구조 이해</h3>
+      <ol>
+        <li>수업 (1교시)</li>
+        <li>피드백 (복습 + 질의응답)</li>
+        <li>점심 식사</li>
+        <li>수업 (2교시)</li>
+        <li>피드백</li>
+        <li>PF 테스트 (확인 테스트)</li>
+        <li>오답정리 + 질의응답</li>
+      </ol>
+    `
+  },
+  {
+    title: "4️⃣ 시간표 이해",
+    content: `
+      <h2>순찰 대상 시간</h2>
+      <div class="danger-box">
+        <strong>⚠️ 수업 시간은 순찰 제외!</strong>
+        <p>오전 1교시, 점심 이후 2교시는 강사가 수업 중이므로 순찰하지 않습니다.</p>
+      </div>
+      <h3>순찰 시간</h3>
+      <ul>
+        <li>피드백 시간</li>
+        <li>자습 시간</li>
+        <li>PF 테스트 시간</li>
+        <li>오답정리·질의응답 시간</li>
+        <li>매일깨기 시간</li>
+        <li>쉬는 시간 (화장실, 복도 포함)</li>
+      </ul>
+      <div class="warning-box">
+        <strong>⚠️ 피드백 시간 주의사항</strong>
+        <p>부담임 선생님이 질의응답을 받지만, 모든 학생을 확인하기 어렵습니다. <strong>자습 시간과 동일하게 순찰</strong>하세요!</p>
+      </div>
+    `
+  },
+  {
+    title: "4️⃣ 시간표 이해",
+    content: `
+      <h2>교육 과정 완료</h2>
+      <div class="highlight-box">
+        <strong>🎉 수고하셨습니다!</strong>
+        <p>모든 교육 모듈을 완료하셨습니다. 이제 최종 평가 시험을 진행합니다.</p>
+      </div>
+      <h3>시험 안내</h3>
+      <ul>
+        <li>총 10문항의 객관식 문제</li>
+        <li>합격 기준: 80점 이상</li>
+        <li>모든 문항에 답변 필수</li>
+        <li>제출 전 답안 검토 가능</li>
+        <li>제출 후 정답 확인 가능</li>
+      </ul>
+      <div class="warning-box">
+        <strong>💡 Tip</strong>
+        <p>교육 내용을 잘 복습하셨다면 충분히 합격하실 수 있습니다. 긴장을 풀고 차분하게 문제를 풀어주세요!</p>
+      </div>
+    `
+  }
+];
+
+const quizData = [
+  {
+    question: "강안교육 파트 직원의 가장 핵심적인 업무는 무엇인가요?",
+    options: [
+      "학생 상담 및 멘탈 케어",
+      "학생 감시 및 규정 준수 강제",
+      "수업 자료 준비",
+      "학부모 상담"
+    ],
+    answer: 1
+  },
+  {
+    question: "학생이 인사를 건넬 때 올바른 대응 방법은?",
+    options: [
+      "친절하게 대화를 나눈다",
+      "목례로만 응답한다",
+      "무시한다",
+      "악수를 한다"
+    ],
+    answer: 1
+  },
+  {
+    question: "졸업생이나 퇴원생이 SNS를 알려달라고 할 때 어떻게 해야 하나요?",
+    options: [
+      "졸업생이므로 괜찮다",
+      "개인 연락처만 교환한다",
+      "철저하게 무시하고 교환하지 않는다",
+      "나중에 교환한다"
+    ],
+    answer: 2
+  },
+  {
+    question: "근무 중 개인 핸드폰 사용에 대한 규정은?",
+    options: [
+      "쉬는 시간에만 사용 가능",
+      "업무 목적 외 사용 금지",
+      "조용히 사용하면 가능",
+      "학생이 안 보는 곳에서는 가능"
+    ],
+    answer: 1
+  },
+  {
+    question: "식사 시간은 출발 시간으로부터 몇 분인가요?",
+    options: [
+      "30분",
+      "40분",
+      "50분",
+      "60분"
+    ],
+    answer: 2
+  },
+  {
+    question: "하이웍스 메신저의 '바른식당' 방의 용도는?",
+    options: [
+      "근무자 간 잡담",
+      "직원 공지사항",
+      "식사 이동 강의실 통제",
+      "학생 관리대장 작성"
+    ],
+    answer: 2
+  },
+  {
+    question: "관리대장을 작성하지 않고 즉시 직원에게 인계해야 하는 경우가 아닌 것은?",
+    options: [
+      "졸음 3회 이상",
+      "학생 간 대화",
+      "쉬는 시간 외 1회 이동",
+      "무단 핸드폰 사용"
+    ],
+    answer: 2
+  },
+  {
+    question: "이코딩 출석 체크 시 가장 먼저 호명해야 하는 학생은?",
+    options: [
+      "등원 예정 학생",
+      "초록색 시간 표시 학생",
+      "결석 예정 학생",
+      "지각 학생"
+    ],
+    answer: 1
+  },
+  {
+    question: "시간표 중 703호 강의실은 어떤 타입을 적용하나요?",
+    options: [
+      "A타입 (홀수층)",
+      "B타입 (짝수층)",
+      "C타입",
+      "특별 타입"
+    ],
+    answer: 1
+  },
+  {
+    question: "피드백 시간에 대한 설명으로 올바른 것은?",
+    options: [
+      "부담임 선생님이 관리하므로 순찰하지 않는다",
+      "수업 시간이므로 순찰 제외",
+      "자습 시간과 동일하게 순찰한다",
+      "학생들끼리 대화해도 괜찮다"
+    ],
+    answer: 2
+  }
+];
+
+let testMode = false;
+
+function login() {
+  const userName = document.getElementById('userName').value.trim();
+  if (!userName) {
+    alert('이름을 입력해주세요.');
+    return;
+  }
+  currentUser = userName;
+  
+  // 테스트 모드 활성화 (이름에 "테스트" 포함 시)
+  if (userName.includes('테스트') || userName.includes('test')) {
+    testMode = true;
+    alert('🔧 테스트 모드 활성화!\n음성 없이 바로 넘어갈 수 있습니다.');
+  }
+  
+  const savedProgress = loadProgress(userName);
+  if (savedProgress && savedProgress.currentSlide) {
+    if (confirm(`${userName}님의 이전 학습 기록이 있습니다.\n이어서 학습하시겠습니까?`)) {
+      currentSlide = savedProgress.currentSlide;
+    }
+  }
+  showPage('educationPage');
+  initEducation();
+}
+
+function initEducation() {
+  totalSlides = educationData.length;
+  renderSlide();
+  updateProgress();
+}
+
+function renderSlide() {
+  document.getElementById('slideNumber').textContent = `모듈 ${currentSlide + 1}/${totalSlides}`;
+  document.getElementById('slideTitle').textContent = educationData[currentSlide].title;
+  document.getElementById('slideContent').innerHTML = educationData[currentSlide].content;
+  document.getElementById('prevBtn').disabled = currentSlide === 0;
+  audioCompleted = false;
+  
+  // 테스트 모드일 때는 바로 다음 버튼 활성화
+  if (testMode) {
+    document.getElementById('nextBtn').disabled = false;
+    document.getElementById('voiceText').textContent = '🔧 테스트 모드: 바로 넘어갈 수 있습니다';
+  } else {
+    document.getElementById('nextBtn').disabled = true;
+    document.getElementById('voiceText').textContent = '음성 안내를 재생하세요';
+  }
+  
+  document.getElementById('voiceBtn').textContent = '▶ 음성 듣기';
+  document.getElementById('voiceBtn').classList.remove('playing');
+  document.getElementById('voiceIcon').classList.remove('playing');
+  stopVoice();
+  saveProgress(currentUser, currentSlide);
+}
+
+function nextSlide() {
+  if (currentSlide < totalSlides - 1) {
+    currentSlide++;
+    renderSlide();
+    updateProgress();
+  } else {
+    showPage('examPage');
+    initQuiz();
+  }
+}
+
+function prevSlide() {
+  if (currentSlide > 0) {
+    currentSlide--;
+    renderSlide();
+    updateProgress();
+  }
+}
+
+function updateProgress() {
+  const progress = ((currentSlide + 1) / totalSlides) * 100;
+  document.getElementById('progressBar').style.width = progress + '%';
+  document.getElementById('progressStats').textContent = `${currentSlide + 1}/${totalSlides} (${Math.round(progress)}%)`;
+}
+
+function playVoice() {
+  if (audioPlaying) {
+    stopVoice();
+    return;
+  }
+  stopVoice();
+  
+  // 음성 파일 경로 (slide1.mp3 ~ slide15.mp3)
+  const audioFile = `slide${currentSlide + 1}.mp3`;
+  
+  // HTML5 Audio 객체 생성
+  currentAudio = new Audio(audioFile);
+  
+  // 에러 처리
+  currentAudio.onerror = () => {
+    console.error(`❌ 음성 파일을 찾을 수 없습니다: ${audioFile}`);
+    alert(`음성 파일이 없습니다!\n${audioFile} 파일을 GitHub에 업로드해주세요.`);
+    audioPlaying = false;
+    document.getElementById('voiceBtn').classList.remove('playing');
+    document.getElementById('voiceIcon').classList.remove('playing');
+  };
+  
+  // 재생 완료 이벤트
+  currentAudio.onended = () => {
+    audioPlaying = false;
+    audioCompleted = true;
+    document.getElementById('nextBtn').disabled = false;
+    document.getElementById('voiceText').textContent = '음성 재생 완료! 다음으로 진행하세요';
+    document.getElementById('voiceBtn').textContent = '🔊 음성 다시 듣기';
+    document.getElementById('voiceBtn').classList.remove('playing');
+    document.getElementById('voiceIcon').classList.remove('playing');
+  };
+  
+  // 재생 시작
+  currentAudio.play()
+    .then(() => {
+      console.log(`✅ 재생 중: ${audioFile}`);
+      audioPlaying = true;
+      document.getElementById('voiceText').textContent = '음성 재생 중...';
+      document.getElementById('voiceBtn').textContent = '⏸️ 음성 중지';
+      document.getElementById('voiceBtn').classList.add('playing');
+      document.getElementById('voiceIcon').classList.add('playing');
+    })
+    .catch(err => {
+      console.error('재생 오류:', err);
+      alert('음성 재생에 실패했습니다. 파일을 확인해주세요.');
+    });
+}
+
+function stopVoice() {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    audioPlaying = false;
+  }
+}
+
+function initQuiz() {
+  let html = '';
+  quizData.forEach((q, i) => {
+    html += `
+      <div class="question-card">
+        <span class="question-number">문제 ${i + 1}</span>
+        <div class="question-text">${q.question}</div>
+        <div>
+          ${q.options.map((opt, j) => `
+            <label class="option-label">
+              <input type="radio" name="q${i}" value="${j}">
+              <span>${opt}</span>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  });
+  document.getElementById('quizContainer').innerHTML = html;
+}
+
+function reviewAnswers() {
+  const unanswered = [];
+  quizData.forEach((q, i) => {
+    if (!document.querySelector(`input[name="q${i}"]:checked`)) {
+      unanswered.push(i + 1);
+    }
+  });
+  if (unanswered.length > 0) {
+    alert(`답변하지 않은 문제가 있습니다:\n문제 번호 ${unanswered.join(', ')}`);
+    return;
+  }
+  if (confirm('모든 문제에 답변하셨습니다.\n시험을 제출하시겠습니까?')) {
+    document.getElementById('submitBtn').style.display = 'block';
+    alert('제출 준비 완료! "시험 제출하기" 버튼을 눌러주세요.');
+  }
+}
+
+function submitQuiz() {
+  let score = 0;
+  quizData.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    if (selected && parseInt(selected.value) === q.answer) score++;
+  });
+  const percentage = (score / quizData.length) * 100;
+  const passed = percentage >= 80;
+  saveQuizResult(currentUser, score, quizData.length, passed);
+  showPage('resultPage');
+  displayResult(score, quizData.length, passed);
+}
+
+function displayResult(score, total, passed) {
+  const percentage = Math.round((score / total) * 100);
+  document.getElementById('resultContainer').innerHTML = `
+    <div class="result-icon">${passed ? '🎉' : '😢'}</div>
+    <h2 class="result-title ${passed ? 'pass' : 'fail'}">${passed ? '합격입니다!' : '불합격입니다'}</h2>
+    <div class="result-score ${passed ? 'pass' : 'fail'}">${percentage}점</div>
+    <p class="result-detail">${score}/${total} 문제 정답</p>
+    <div class="result-message">
+      <p>${passed ? '축하합니다! 모든 교육 과정을 성공적으로 완료하셨습니다.' : '아쉽게도 불합격입니다. 교육 내용을 다시 학습 후 재시험을 보실 수 있습니다.'}</p>
+    </div>
+  `;
+}
+
+function showAnswers() {
+  showPage('examPage');
+  quizData.forEach((q, i) => {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    const options = document.querySelectorAll(`input[name="q${i}"]`);
+    options.forEach((opt, j) => {
+      const label = opt.closest('.option-label');
+      label.style.pointerEvents = 'none';
+      if (j === q.answer) {
+        label.classList.add('correct');
+      } else if (selected && parseInt(selected.value) === j) {
+        label.classList.add('incorrect');
+      }
+    });
+  });
+  document.getElementById('submitBtn').style.display = 'none';
+}
+
+function restartEducation() {
+  if (confirm('처음부터 다시 시작하시겠습니까?')) {
+    currentSlide = 0;
+    showPage('educationPage');
+    initEducation();
+  }
+}
+
+function showAdminPage() {
+  showPage('adminPage');
+  const results = getAllQuizResults();
+  const tbody = document.getElementById('adminTableBody');
+  if (results.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">아직 제출된 시험이 없습니다.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = results.map(r => `
+    <tr>
+      <td>${r.userName}</td>
+      <td>${r.score}/${r.total} (${Math.round((r.score/r.total)*100)}점)</td>
+      <td>${r.passed ? '✅ 합격' : '❌ 불합격'}</td>
+      <td>${new Date(r.timestamp).toLocaleString('ko-KR')}</td>
+    </tr>
+  `).join('');
+}
+
+function backToLogin() {
+  currentUser = '';
+  currentSlide = 0;
+  showPage('loginPage');
+  document.getElementById('userName').value = '';
+}
+
+function showPage(pageId) {
+  document.querySelectorAll('.content').forEach(p => p.classList.add('hidden'));
+  document.getElementById(pageId).classList.remove('hidden');
+}
+
+function saveProgress(userName, slide) {
+  localStorage.setItem(`progress_${userName}`, JSON.stringify({ currentSlide: slide }));
+}
+
+function loadProgress(userName) {
+  const data = localStorage.getItem(`progress_${userName}`);
+  return data ? JSON.parse(data) : null;
+}
+
+function saveQuizResult(userName, score, total, passed) {
+  const results = getAllQuizResults();
+  results.push({ userName, score, total, passed, timestamp: new Date().toISOString() });
+  localStorage.setItem('quizResults', JSON.stringify(results));
+}
+
+function getAllQuizResults() {
+  const data = localStorage.getItem('quizResults');
+  return data ? JSON.parse(data) : [];
+}
+
+// 음성 파일 버전 - Web Speech API 코드 제거됨
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('userName').addEventListener('keypress', e => {
+    if (e.key === 'Enter') login();
+  });
+});
+</script>
+</body>
+</html>
