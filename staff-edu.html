@@ -391,6 +391,85 @@ body {
   font-weight: 900;
   margin-bottom: 12px;
 }
+/* 영상 섹션 */
+.video-section {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  border-radius: 16px;
+  padding: 30px;
+  margin: 30px 0;
+  display: none;
+}
+.video-section.active {
+  display: block;
+}
+.video-section h3 {
+  color: var(--accent);
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.video-section h3::before {
+  content: '📹';
+  margin-right: 12px;
+  font-size: 28px;
+}
+.video-container {
+  position: relative;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.video-player {
+  width: 100%;
+  aspect-ratio: 9/16;
+  max-height: 500px;
+  border: none;
+}
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  padding: 20px;
+  z-index: 10;
+  pointer-events: none;
+}
+.video-overlay.hidden {
+  display: none;
+}
+.video-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.video-status .status-icon {
+  font-size: 24px;
+}
+.video-status .status-text {
+  color: var(--accent);
+}
+.video-status .status-text.completed {
+  color: var(--success);
+}
 .navigation {
   display: flex;
   gap: 15px;
@@ -576,6 +655,7 @@ body {
   .navigation { flex-direction: column; }
 }
 </style>
+<script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 <div class="container">
@@ -640,6 +720,20 @@ body {
 </div>
 </div>
 
+<div class="video-section" id="videoSection">
+<h3>참고 영상</h3>
+<div class="video-container">
+<div id="ytPlayer"></div>
+<div class="video-overlay" id="videoOverlay">
+🔒 영상을 끝까지 시청하세요
+</div>
+</div>
+<div class="video-status">
+<span class="status-icon" id="videoIcon">⏳</span>
+<span class="status-text" id="videoStatusText">대기 중</span>
+</div>
+</div>
+
 <div class="navigation">
 <button class="nav-btn nav-btn-prev" id="prevBtn" onclick="prevSlide()">← 이전</button>
 <button class="nav-btn nav-btn-next" id="nextBtn" onclick="nextSlide()" disabled>다음 →</button>
@@ -693,6 +787,9 @@ let totalSlides = 0;
 let audioPlaying = false;
 let audioCompleted = false;
 let currentAudio = null;
+let ytPlayer = null;
+let videoCompleted = false;
+let videoReady = false;
 
 const educationData = [
   {
@@ -850,7 +947,9 @@ const educationData = [
         <li>당일 출근한 파트 근무자들끼리 협조사항 소통</li>
         <li>⚠️ 주의: 근무 중 잡담으로 메신저를 계속 보지 말 것!</li>
       </ul>
-    `
+    `,
+    videoUrl: "-u2Z1THOqkY",
+    videoTitle: "하이웍스 메신저 사용 화면"
   },
   {
     title: "2️⃣ 근무 패드 사용법",
@@ -877,7 +976,9 @@ const educationData = [
         </ul>
         <p>→ 즉시 제재하고 직원에게 인계!</p>
       </div>
-    `
+    `,
+    videoUrl: "quGsFDGpUBE",
+    videoTitle: "스프레드시트 관리대장 사용법"
   },
   {
     title: "2️⃣ 근무 패드 사용법",
@@ -902,7 +1003,9 @@ const educationData = [
         <strong>⚠️ 특이사항 인계</strong>
         <p>시간 체크되었으나 자리에 없거나, 호명되지 않았으나 앉아있는 경우 → 하이웍스로 직원에게 즉시 공유!</p>
       </div>
-    `
+    `,
+    videoUrl: "NlGBcSQEnmI",
+    videoTitle: "이코딩 출석 체크 방법"
   },
   {
     title: "3️⃣ 출석 관리",
@@ -1132,7 +1235,7 @@ const quizData = [
       "C타입",
       "특별 타입"
     ],
-    answer: 1
+    answer: 0
   },
   {
     question: "피드백 시간에 대한 설명으로 올바른 것은?",
@@ -1184,6 +1287,33 @@ function renderSlide() {
   document.getElementById('slideContent').innerHTML = educationData[currentSlide].content;
   document.getElementById('prevBtn').disabled = currentSlide === 0;
   audioCompleted = false;
+  videoCompleted = false;
+  
+  // 영상 처리
+  const currentSlideData = educationData[currentSlide];
+  const videoSection = document.getElementById('videoSection');
+  
+  if (currentSlideData.videoUrl) {
+    // 영상이 있는 슬라이드
+    videoSection.classList.add('active');
+    document.querySelector('.video-section h3').textContent = `📹 참고 영상 - ${currentSlideData.videoTitle}`;
+    document.getElementById('videoIcon').textContent = '⏳';
+    document.getElementById('videoStatusText').textContent = '대기 중';
+    document.getElementById('videoStatusText').classList.remove('completed');
+    document.getElementById('videoOverlay').classList.remove('hidden');
+    
+    // YouTube Player 생성
+    if (typeof YT !== 'undefined' && YT.Player) {
+      createYTPlayer(currentSlideData.videoUrl);
+    }
+  } else {
+    // 영상이 없는 슬라이드
+    videoSection.classList.remove('active');
+    if (ytPlayer) {
+      ytPlayer.destroy();
+      ytPlayer = null;
+    }
+  }
   
   // 테스트 모드일 때는 바로 다음 버튼 활성화
   if (testMode) {
@@ -1196,6 +1326,8 @@ function renderSlide() {
   
   document.getElementById('voiceBtn').textContent = '▶ 음성 듣기';
   document.getElementById('voiceBtn').classList.remove('playing');
+  document.getElementById('voiceBtn').disabled = false;
+  document.getElementById('voiceBtn').style.opacity = '1';
   document.getElementById('voiceIcon').classList.remove('playing');
   stopVoice();
   saveProgress(currentUser, currentSlide);
@@ -1233,6 +1365,11 @@ function playVoice() {
   }
   stopVoice();
   
+  // 영상 일시정지
+  if (ytPlayer && ytPlayer.pauseVideo) {
+    ytPlayer.pauseVideo();
+  }
+  
   // 음성 파일 경로 (slide1.mp3 ~ slide15.mp3)
   const audioFile = `slide${currentSlide + 1}.mp3`;
   
@@ -1252,11 +1389,12 @@ function playVoice() {
   currentAudio.onended = () => {
     audioPlaying = false;
     audioCompleted = true;
-    document.getElementById('nextBtn').disabled = false;
-    document.getElementById('voiceText').textContent = '음성 재생 완료! 다음으로 진행하세요';
+    document.getElementById('voiceText').textContent = '✅ 음성 재생 완료!';
     document.getElementById('voiceBtn').textContent = '🔊 음성 다시 듣기';
     document.getElementById('voiceBtn').classList.remove('playing');
     document.getElementById('voiceIcon').classList.remove('playing');
+    
+    checkCompletion();
   };
   
   // 재생 시작
@@ -1321,7 +1459,7 @@ function reviewAnswers() {
   }
 }
 
-function submitQuiz() {
+async function submitQuiz() {
   let score = 0;
   quizData.forEach((q, i) => {
     const selected = document.querySelector(`input[name="q${i}"]:checked`);
@@ -1329,7 +1467,10 @@ function submitQuiz() {
   });
   const percentage = (score / quizData.length) * 100;
   const passed = percentage >= 80;
-  saveQuizResult(currentUser, score, quizData.length, passed);
+  
+  // Firebase에 저장 (await)
+  await saveQuizResult(currentUser, score, quizData.length, passed);
+  
   showPage('resultPage');
   displayResult(score, quizData.length, passed);
 }
@@ -1373,14 +1514,43 @@ function restartEducation() {
   }
 }
 
-function showAdminPage() {
+async function showAdminPage() {
   showPage('adminPage');
-  const results = getAllQuizResults();
   const tbody = document.getElementById('adminTableBody');
+  
+  // 로딩 표시
+  tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">📊 데이터 불러오는 중...</td></tr>';
+  
+  let results = [];
+  
+  // Firebase Firestore에서 데이터 가져오기
+  try {
+    if (window.firebaseDB) {
+      const q = window.firebaseQuery(
+        window.firebaseCollection(window.firebaseDB, 'examResults'),
+        window.firebaseOrderBy('timestamp', 'desc')
+      );
+      const querySnapshot = await window.firebaseGetDocs(q);
+      
+      querySnapshot.forEach((doc) => {
+        results.push(doc.data());
+      });
+      
+      console.log(`✅ Firebase에서 ${results.length}개 결과 불러옴`);
+    }
+  } catch (error) {
+    console.error('❌ Firebase 읽기 오류:', error);
+    // 오류 시 LocalStorage에서 읽기
+    results = getAllQuizResults();
+    console.log('⚠️ LocalStorage에서 데이터 사용');
+  }
+  
+  // 결과 표시
   if (results.length === 0) {
     tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">아직 제출된 시험이 없습니다.</td></tr>';
     return;
   }
+  
   tbody.innerHTML = results.map(r => `
     <tr>
       <td>${r.userName}</td>
@@ -1412,10 +1582,33 @@ function loadProgress(userName) {
   return data ? JSON.parse(data) : null;
 }
 
-function saveQuizResult(userName, score, total, passed) {
+async function saveQuizResult(userName, score, total, passed) {
+  const resultData = { 
+    userName, 
+    score, 
+    total, 
+    passed, 
+    timestamp: new Date().toISOString() 
+  };
+  
+  // LocalStorage에도 저장 (백업용)
   const results = getAllQuizResults();
-  results.push({ userName, score, total, passed, timestamp: new Date().toISOString() });
+  results.push(resultData);
   localStorage.setItem('quizResults', JSON.stringify(results));
+  
+  // Firebase Firestore에 저장
+  try {
+    if (window.firebaseDB) {
+      await window.firebaseAddDoc(
+        window.firebaseCollection(window.firebaseDB, 'examResults'), 
+        resultData
+      );
+      console.log('✅ Firebase에 시험 결과 저장 완료!');
+    }
+  } catch (error) {
+    console.error('❌ Firebase 저장 오류:', error);
+    alert('시험 결과가 로컬에는 저장되었지만 서버 저장에 실패했습니다.');
+  }
 }
 
 function getAllQuizResults() {
@@ -1430,5 +1623,131 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+<!-- Firebase SDK -->
+<script type="module">
+  // Import Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  
+  // Firebase 설정
+  const firebaseConfig = {
+    apiKey: "AIzaSyD5khyyPPwp7eHBI-kZMTG5Z7z3H1P-uhQ",
+    authDomain: "kangan-staff-edu.firebaseapp.com",
+    projectId: "kangan-staff-edu",
+    storageBucket: "kangan-staff-edu.firebasestorage.app",
+    messagingSenderId: "157053109463",
+    appId: "1:157053109463:web:d55fc109b784d11c5edc92"
+  };
+  
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  
+  // Firebase 함수들을 전역으로 노출
+  window.firebaseDB = db;
+  window.firebaseAddDoc = addDoc;
+  window.firebaseCollection = collection;
+  window.firebaseGetDocs = getDocs;
+  window.firebaseQuery = query;
+  window.firebaseOrderBy = orderBy;
+  
+  console.log('✅ Firebase 연결 완료!');
+
+// YouTube Player API 초기화
+function onYouTubeIframeAPIReady() {
+  console.log('✅ YouTube API 준비 완료');
+  videoReady = true;
+}
+
+function createYTPlayer(videoId) {
+  if (ytPlayer) {
+    ytPlayer.destroy();
+  }
+  
+  ytPlayer = new YT.Player('ytPlayer', {
+    height: '100%',
+    width: '100%',
+    videoId: videoId,
+    playerVars: {
+      'playsinline': 1,
+      'rel': 0,
+      'modestbranding': 1
+    },
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
+}
+
+function onPlayerReady(event) {
+  console.log('✅ YouTube Player 준비 완료');
+}
+
+function onPlayerStateChange(event) {
+  // 재생 시작
+  if (event.data == YT.PlayerState.PLAYING) {
+    document.getElementById('videoIcon').textContent = '▶️';
+    document.getElementById('videoStatusText').textContent = '재생 중';
+    document.getElementById('videoStatusText').classList.remove('completed');
+    document.getElementById('videoOverlay').classList.add('hidden');
+    
+    // 음성 비활성화
+    if (!audioCompleted) {
+      const voiceBtn = document.getElementById('voiceBtn');
+      voiceBtn.disabled = true;
+      voiceBtn.style.opacity = '0.5';
+      document.getElementById('voiceText').textContent = '영상 시청 중에는 음성을 들을 수 없습니다';
+    }
+  }
+  
+  // 일시정지
+  if (event.data == YT.PlayerState.PAUSED) {
+    if (!audioCompleted) {
+      const voiceBtn = document.getElementById('voiceBtn');
+      voiceBtn.disabled = false;
+      voiceBtn.style.opacity = '1';
+      document.getElementById('voiceText').textContent = '음성 안내를 재생하세요';
+    }
+  }
+  
+  // 영상 종료
+  if (event.data == YT.PlayerState.ENDED) {
+    videoCompleted = true;
+    document.getElementById('videoIcon').textContent = '✅';
+    document.getElementById('videoStatusText').textContent = '시청 완료';
+    document.getElementById('videoStatusText').classList.add('completed');
+    
+    // 음성 버튼 다시 활성화
+    if (!audioCompleted) {
+      const voiceBtn = document.getElementById('voiceBtn');
+      voiceBtn.disabled = false;
+      voiceBtn.style.opacity = '1';
+      document.getElementById('voiceText').textContent = '음성 안내를 재생하세요';
+    }
+    
+    checkCompletion();
+  }
+}
+
+function checkCompletion() {
+  const currentSlideData = educationData[currentSlide];
+  const hasVideo = currentSlideData.videoUrl;
+  
+  // 영상이 있는 슬라이드: 음성 + 영상 둘 다 완료 필요
+  if (hasVideo) {
+    if (audioCompleted && videoCompleted) {
+      document.getElementById('nextBtn').disabled = false;
+    }
+  } else {
+    // 영상이 없는 슬라이드: 음성만 완료
+    if (audioCompleted) {
+      document.getElementById('nextBtn').disabled = false;
+    }
+  }
+}
+
+</script>
+
 </body>
 </html>
