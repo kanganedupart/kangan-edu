@@ -397,27 +397,19 @@ body {
   border-radius: 16px;
   padding: 30px;
   margin: 30px 0;
-  display: none !important;
+  display: none;
 }
 .video-section.active {
-  display: block !important;
+  display: block;
 }
 .video-section h3 {
   color: var(--accent);
   font-size: 20px;
   font-weight: 900;
   margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.video-section h3::before {
-  content: '📹';
-  margin-right: 12px;
-  font-size: 28px;
+  text-align: center;
 }
 .video-container {
-  position: relative;
   background: #000;
   border-radius: 12px;
   overflow: hidden;
@@ -428,47 +420,6 @@ body {
   aspect-ratio: 9/16;
   max-height: 500px;
   border: none;
-}
-.video-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 18px;
-  font-weight: 700;
-  text-align: center;
-  padding: 20px;
-  z-index: 10;
-  pointer-events: none;
-}
-.video-overlay.hidden {
-  display: none;
-}
-.video-status {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 15px;
-  background: white;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 700;
-}
-.video-status .status-icon {
-  font-size: 24px;
-}
-.video-status .status-text {
-  color: var(--accent);
-}
-.video-status .status-text.completed {
-  color: var(--success);
 }
 .video-confirm-btn {
   width: 100%;
@@ -486,6 +437,18 @@ body {
 .video-confirm-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+}
+.video-status {
+  text-align: center;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.video-status.completed {
+  color: var(--success);
 }
 .navigation {
   display: flex;
@@ -737,23 +700,14 @@ body {
 </div>
 
 <div class="video-section" id="videoSection">
-<h3>참고 영상</h3>
+<h3 id="videoTitle">📹 참고 영상</h3>
 <div class="video-container">
-<iframe 
-id="ytPlayer" 
-class="video-player"
-frameborder="0" 
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-allowfullscreen>
-</iframe>
+<iframe id="ytPlayer" class="video-player" frameborder="0" allowfullscreen></iframe>
 </div>
-<button class="video-confirm-btn" id="videoConfirmBtn" onclick="confirmVideoWatched()" style="display:none;">
+<button class="video-confirm-btn" id="videoConfirmBtn" onclick="confirmVideo()" style="display:none;">
 ✅ 영상 시청 완료 (클릭)
 </button>
-<div class="video-status">
-<span class="status-icon" id="videoIcon">⏳</span>
-<span class="status-text" id="videoStatusText">영상을 끝까지 시청하세요</span>
-</div>
+<div class="video-status" id="videoStatus">영상을 끝까지 시청하세요</div>
 </div>
 
 <div class="navigation">
@@ -1302,57 +1256,40 @@ function initEducation() {
 }
 
 function renderSlide() {
-  console.log(`\n📄 renderSlide 호출: 슬라이드 ${currentSlide + 1}`);
-  
   document.getElementById('slideNumber').textContent = `모듈 ${currentSlide + 1}/${totalSlides}`;
   document.getElementById('slideTitle').textContent = educationData[currentSlide].title;
   document.getElementById('slideContent').innerHTML = educationData[currentSlide].content;
   document.getElementById('prevBtn').disabled = currentSlide === 0;
-  
-  // 완료 상태 초기화
   audioCompleted = false;
   videoCompleted = false;
   
-  console.log('→ 완료 상태 초기화 완료');
-  
   // 영상 처리
-  const currentSlideData = educationData[currentSlide];
+  const slide = educationData[currentSlide];
   const videoSection = document.getElementById('videoSection');
   const ytPlayer = document.getElementById('ytPlayer');
   const videoConfirmBtn = document.getElementById('videoConfirmBtn');
   
-  if (currentSlideData.videoUrl) {
-    // 영상이 있는 슬라이드
-    console.log('→ 영상 있음:', currentSlideData.videoUrl);
+  if (slide.videoUrl) {
+    // 영상 있음
     videoSection.classList.add('active');
-    videoSection.style.display = 'block';
-    document.querySelector('.video-section h3').textContent = `📹 참고 영상 - ${currentSlideData.videoTitle}`;
-    
-    ytPlayer.src = `https://www.youtube.com/embed/${currentSlideData.videoUrl}?rel=0&modestbranding=1`;
-    
-    document.getElementById('videoIcon').textContent = '⏳';
-    document.getElementById('videoStatusText').textContent = '영상을 끝까지 시청하세요';
-    document.getElementById('videoStatusText').classList.remove('completed');
+    document.getElementById('videoTitle').textContent = `📹 참고 영상 - ${slide.videoTitle}`;
+    ytPlayer.src = `https://www.youtube.com/embed/${slide.videoUrl}?rel=0&modestbranding=1`;
     videoConfirmBtn.style.display = 'none';
+    document.getElementById('videoStatus').textContent = '영상을 끝까지 시청하세요';
+    document.getElementById('videoStatus').classList.remove('completed');
     
+    // 30초 후 버튼 표시
     setTimeout(() => {
-      if (!videoCompleted && currentSlideData.videoUrl) {
-        videoConfirmBtn.style.display = 'block';
-      }
+      if (!videoCompleted) videoConfirmBtn.style.display = 'block';
     }, 30000);
   } else {
-    // 영상이 없는 슬라이드
-    console.log('→ 영상 없음 - videoCompleted를 true로 설정');
+    // 영상 없음
     videoSection.classList.remove('active');
-    videoSection.style.display = 'none';
     ytPlayer.src = '';
-    videoConfirmBtn.style.display = 'none';
     videoCompleted = true; // 영상 없으면 완료 처리
-    
-    console.log('→ videoCompleted:', videoCompleted);
   }
   
-  // 테스트 모드
+  // 테스트 모드일 때는 바로 다음 버튼 활성화
   if (testMode) {
     document.getElementById('nextBtn').disabled = false;
     document.getElementById('voiceText').textContent = '🔧 테스트 모드: 바로 넘어갈 수 있습니다';
@@ -1363,13 +1300,9 @@ function renderSlide() {
   
   document.getElementById('voiceBtn').textContent = '▶ 음성 듣기';
   document.getElementById('voiceBtn').classList.remove('playing');
-  document.getElementById('voiceBtn').disabled = false;
-  document.getElementById('voiceBtn').style.opacity = '1';
   document.getElementById('voiceIcon').classList.remove('playing');
   stopVoice();
   saveProgress(currentUser, currentSlide);
-  
-  console.log('✅ renderSlide 완료\n');
 }
 
 function nextSlide() {
@@ -1398,46 +1331,48 @@ function updateProgress() {
 }
 
 function playVoice() {
-  console.log('🎙️ playVoice 호출');
-  
   if (audioPlaying) {
-    console.log('→ 이미 재생 중, 중지');
     stopVoice();
     return;
   }
   stopVoice();
   
+  // 음성 파일 경로 (slide1.mp3 ~ slide15.mp3)
   const audioFile = `slide${currentSlide + 1}.mp3`;
-  console.log('→ 재생할 파일:', audioFile);
   
+  // HTML5 Audio 객체 생성
   currentAudio = new Audio(audioFile);
   
+  // 에러 처리
   currentAudio.onerror = () => {
-    console.error(`❌ 음성 파일 오류: ${audioFile}`);
+    console.error(`❌ 음성 파일을 찾을 수 없습니다: ${audioFile}`);
     alert(`음성 파일이 없습니다!\n${audioFile} 파일을 GitHub에 업로드해주세요.`);
     audioPlaying = false;
     document.getElementById('voiceBtn').classList.remove('playing');
     document.getElementById('voiceIcon').classList.remove('playing');
   };
   
+  // 재생 완료 이벤트
   currentAudio.onended = () => {
-    console.log('✅ 음성 재생 완료!');
     audioPlaying = false;
     audioCompleted = true;
-    console.log('→ audioCompleted를 true로 설정');
-    
-    document.getElementById('voiceText').textContent = '✅ 음성 재생 완료!';
     document.getElementById('voiceBtn').textContent = '🔊 음성 다시 듣기';
     document.getElementById('voiceBtn').classList.remove('playing');
     document.getElementById('voiceIcon').classList.remove('playing');
     
-    console.log('→ checkCompletion 호출 예정');
-    checkCompletion();
+    // 영상도 완료했으면 다음 버튼 활성화
+    if (videoCompleted) {
+      document.getElementById('nextBtn').disabled = false;
+      document.getElementById('voiceText').textContent = '✅ 음성 재생 완료! 다음으로 진행하세요';
+    } else {
+      document.getElementById('voiceText').textContent = '✅ 음성 완료! 영상도 시청하세요';
+    }
   };
   
+  // 재생 시작
   currentAudio.play()
     .then(() => {
-      console.log(`✅ 재생 시작: ${audioFile}`);
+      console.log(`✅ 재생 중: ${audioFile}`);
       audioPlaying = true;
       document.getElementById('voiceText').textContent = '음성 재생 중...';
       document.getElementById('voiceBtn').textContent = '⏸️ 음성 중지';
@@ -1445,9 +1380,24 @@ function playVoice() {
       document.getElementById('voiceIcon').classList.add('playing');
     })
     .catch(err => {
-      console.error('❌ 재생 오류:', err);
+      console.error('재생 오류:', err);
       alert('음성 재생에 실패했습니다. 파일을 확인해주세요.');
     });
+}
+
+function confirmVideo() {
+  if (confirm('영상을 끝까지 시청하셨나요?')) {
+    videoCompleted = true;
+    document.getElementById('videoConfirmBtn').style.display = 'none';
+    document.getElementById('videoStatus').textContent = '✅ 시청 완료!';
+    document.getElementById('videoStatus').classList.add('completed');
+    
+    // 음성도 완료했으면 다음 버튼 활성화
+    if (audioCompleted) {
+      document.getElementById('nextBtn').disabled = false;
+      document.getElementById('voiceText').textContent = '✅ 모두 완료! 다음으로 진행하세요';
+    }
+  }
 }
 
 function stopVoice() {
@@ -1689,55 +1639,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.firebaseOrderBy = orderBy;
   
   console.log('✅ Firebase 연결 완료!');
-</script>
-
-<script>
-// 영상 시청 완료 확인
-function confirmVideoWatched() {
-  if (confirm('영상을 끝까지 시청하셨나요?')) {
-    videoCompleted = true;
-    document.getElementById('videoIcon').textContent = '✅';
-    document.getElementById('videoStatusText').textContent = '시청 완료';
-    document.getElementById('videoStatusText').classList.add('completed');
-    document.getElementById('videoConfirmBtn').style.display = 'none';
-    
-    console.log('✅ 영상 완료 처리');
-    checkCompletion();
-  }
-}
-
-function checkCompletion() {
-  const currentSlideData = educationData[currentSlide];
-  const hasVideo = currentSlideData.videoUrl;
-  
-  console.log('=== checkCompletion 호출 ===');
-  console.log('현재 슬라이드:', currentSlide + 1);
-  console.log('영상 있음:', hasVideo);
-  console.log('audioCompleted:', audioCompleted);
-  console.log('videoCompleted:', videoCompleted);
-  
-  // 영상이 있는 슬라이드: 음성 + 영상 둘 다 완료 필요
-  if (hasVideo) {
-    console.log('→ 영상 있는 슬라이드: 둘 다 필요');
-    if (audioCompleted && videoCompleted) {
-      console.log('✅ 둘 다 완료! 다음 버튼 활성화');
-      document.getElementById('nextBtn').disabled = false;
-    } else {
-      console.log('⏳ 아직 미완료');
-    }
-  } else {
-    // 영상이 없는 슬라이드: 음성만 완료
-    console.log('→ 영상 없는 슬라이드: 음성만 필요');
-    if (audioCompleted) {
-      console.log('✅ 음성 완료! 다음 버튼 활성화');
-      document.getElementById('nextBtn').disabled = false;
-    } else {
-      console.log('⏳ 음성 미완료');
-    }
-  }
-  console.log('=======================');
-}
-
 </script>
 
 </body>
