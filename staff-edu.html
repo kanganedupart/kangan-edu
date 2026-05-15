@@ -397,10 +397,10 @@ body {
   border-radius: 16px;
   padding: 30px;
   margin: 30px 0;
-  display: none;
+  display: none !important;
 }
 .video-section.active {
-  display: block;
+  display: block !important;
 }
 .video-section h3 {
   color: var(--accent);
@@ -1316,8 +1316,9 @@ function renderSlide() {
   const videoConfirmBtn = document.getElementById('videoConfirmBtn');
   
   if (currentSlideData.videoUrl) {
-    // 영상이 있는 슬라이드
+    // 영상이 있는 슬라이드만 표시
     videoSection.classList.add('active');
+    videoSection.style.display = 'block';
     document.querySelector('.video-section h3').textContent = `📹 참고 영상 - ${currentSlideData.videoTitle}`;
     
     // YouTube iframe 설정
@@ -1327,21 +1328,24 @@ function renderSlide() {
     document.getElementById('videoIcon').textContent = '⏳';
     document.getElementById('videoStatusText').textContent = '영상을 끝까지 시청하세요';
     document.getElementById('videoStatusText').classList.remove('completed');
+    videoConfirmBtn.style.display = 'none';
     
-    // 30초 후 확인 버튼 표시 (영상 시청 시간 고려)
+    // 30초 후 확인 버튼 표시
     setTimeout(() => {
       if (!videoCompleted && currentSlideData.videoUrl) {
         videoConfirmBtn.style.display = 'block';
       }
-    }, 30000); // 30초
+    }, 30000);
   } else {
-    // 영상이 없는 슬라이드
+    // 영상이 없는 슬라이드는 완전히 숨김
     videoSection.classList.remove('active');
+    videoSection.style.display = 'none';
     ytPlayer.src = '';
     videoConfirmBtn.style.display = 'none';
+    videoCompleted = true; // 영상 없으면 완료 처리
   }
   
-  // 테스트 모드일 때는 바로 다음 버튼 활성화
+  // 테스트 모드
   if (testMode) {
     document.getElementById('nextBtn').disabled = false;
     document.getElementById('voiceText').textContent = '🔧 테스트 모드: 바로 넘어갈 수 있습니다';
