@@ -470,6 +470,23 @@ body {
 .video-status .status-text.completed {
   color: var(--success);
 }
+.video-confirm-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--success) 0%, #1b5e20 100%);
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 15px;
+  transition: all 0.3s;
+}
+.video-confirm-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+}
 .navigation {
   display: flex;
   gap: 15px;
@@ -655,7 +672,6 @@ body {
   .navigation { flex-direction: column; }
 }
 </style>
-<script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 <div class="container">
@@ -723,14 +739,20 @@ body {
 <div class="video-section" id="videoSection">
 <h3>참고 영상</h3>
 <div class="video-container">
-<div id="ytPlayer"></div>
-<div class="video-overlay" id="videoOverlay">
-🔒 영상을 끝까지 시청하세요
+<iframe 
+id="ytPlayer" 
+class="video-player"
+frameborder="0" 
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+allowfullscreen>
+</iframe>
 </div>
-</div>
+<button class="video-confirm-btn" id="videoConfirmBtn" onclick="confirmVideoWatched()" style="display:none;">
+✅ 영상 시청 완료 (클릭)
+</button>
 <div class="video-status">
 <span class="status-icon" id="videoIcon">⏳</span>
-<span class="status-text" id="videoStatusText">대기 중</span>
+<span class="status-text" id="videoStatusText">영상을 끝까지 시청하세요</span>
 </div>
 </div>
 
@@ -787,9 +809,7 @@ let totalSlides = 0;
 let audioPlaying = false;
 let audioCompleted = false;
 let currentAudio = null;
-let ytPlayer = null;
 let videoCompleted = false;
-let videoReady = false;
 
 const educationData = [
   {
@@ -1292,27 +1312,33 @@ function renderSlide() {
   // 영상 처리
   const currentSlideData = educationData[currentSlide];
   const videoSection = document.getElementById('videoSection');
+  const ytPlayer = document.getElementById('ytPlayer');
+  const videoConfirmBtn = document.getElementById('videoConfirmBtn');
   
   if (currentSlideData.videoUrl) {
     // 영상이 있는 슬라이드
     videoSection.classList.add('active');
     document.querySelector('.video-section h3').textContent = `📹 참고 영상 - ${currentSlideData.videoTitle}`;
-    document.getElementById('videoIcon').textContent = '⏳';
-    document.getElementById('videoStatusText').textContent = '대기 중';
-    document.getElementById('videoStatusText').classList.remove('completed');
-    document.getElementById('videoOverlay').classList.remove('hidden');
     
-    // YouTube Player 생성
-    if (typeof YT !== 'undefined' && YT.Player) {
-      createYTPlayer(currentSlideData.videoUrl);
-    }
+    // YouTube iframe 설정
+    ytPlayer.src = `https://www.youtube.com/embed/${currentSlideData.videoUrl}?rel=0&modestbranding=1`;
+    
+    // 상태 초기화
+    document.getElementById('videoIcon').textContent = '⏳';
+    document.getElementById('videoStatusText').textContent = '영상을 끝까지 시청하세요';
+    document.getElementById('videoStatusText').classList.remove('completed');
+    
+    // 30초 후 확인 버튼 표시 (영상 시청 시간 고려)
+    setTimeout(() => {
+      if (!videoCompleted && currentSlideData.videoUrl) {
+        videoConfirmBtn.style.display = 'block';
+      }
+    }, 30000); // 30초
   } else {
     // 영상이 없는 슬라이드
     videoSection.classList.remove('active');
-    if (ytPlayer) {
-      ytPlayer.destroy();
-      ytPlayer = null;
-    }
+    ytPlayer.src = '';
+    videoConfirmBtn.style.display = 'none';
   }
   
   // 테스트 모드일 때는 바로 다음 버튼 활성화
@@ -1364,11 +1390,6 @@ function playVoice() {
     return;
   }
   stopVoice();
-  
-  // 영상 일시정지
-  if (ytPlayer && ytPlayer.pauseVideo) {
-    ytPlayer.pauseVideo();
-  }
   
   // 음성 파일 경로 (slide1.mp3 ~ slide15.mp3)
   const audioFile = `slide${currentSlide + 1}.mp3`;
@@ -1653,78 +1674,14 @@ document.addEventListener('DOMContentLoaded', () => {
   
   console.log('✅ Firebase 연결 완료!');
 
-// YouTube Player API 초기화
-function onYouTubeIframeAPIReady() {
-  console.log('✅ YouTube API 준비 완료');
-  videoReady = true;
-}
-
-function createYTPlayer(videoId) {
-  if (ytPlayer) {
-    ytPlayer.destroy();
-  }
-  
-  ytPlayer = new YT.Player('ytPlayer', {
-    height: '100%',
-    width: '100%',
-    videoId: videoId,
-    playerVars: {
-      'playsinline': 1,
-      'rel': 0,
-      'modestbranding': 1
-    },
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  });
-}
-
-function onPlayerReady(event) {
-  console.log('✅ YouTube Player 준비 완료');
-}
-
-function onPlayerStateChange(event) {
-  // 재생 시작
-  if (event.data == YT.PlayerState.PLAYING) {
-    document.getElementById('videoIcon').textContent = '▶️';
-    document.getElementById('videoStatusText').textContent = '재생 중';
-    document.getElementById('videoStatusText').classList.remove('completed');
-    document.getElementById('videoOverlay').classList.add('hidden');
-    
-    // 음성 비활성화
-    if (!audioCompleted) {
-      const voiceBtn = document.getElementById('voiceBtn');
-      voiceBtn.disabled = true;
-      voiceBtn.style.opacity = '0.5';
-      document.getElementById('voiceText').textContent = '영상 시청 중에는 음성을 들을 수 없습니다';
-    }
-  }
-  
-  // 일시정지
-  if (event.data == YT.PlayerState.PAUSED) {
-    if (!audioCompleted) {
-      const voiceBtn = document.getElementById('voiceBtn');
-      voiceBtn.disabled = false;
-      voiceBtn.style.opacity = '1';
-      document.getElementById('voiceText').textContent = '음성 안내를 재생하세요';
-    }
-  }
-  
-  // 영상 종료
-  if (event.data == YT.PlayerState.ENDED) {
+// 영상 시청 완료 확인
+function confirmVideoWatched() {
+  if (confirm('영상을 끝까지 시청하셨나요?')) {
     videoCompleted = true;
     document.getElementById('videoIcon').textContent = '✅';
     document.getElementById('videoStatusText').textContent = '시청 완료';
     document.getElementById('videoStatusText').classList.add('completed');
-    
-    // 음성 버튼 다시 활성화
-    if (!audioCompleted) {
-      const voiceBtn = document.getElementById('voiceBtn');
-      voiceBtn.disabled = false;
-      voiceBtn.style.opacity = '1';
-      document.getElementById('voiceText').textContent = '음성 안내를 재생하세요';
-    }
+    document.getElementById('videoConfirmBtn').style.display = 'none';
     
     checkCompletion();
   }
