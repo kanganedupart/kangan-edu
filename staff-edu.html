@@ -1302,12 +1302,18 @@ function initEducation() {
 }
 
 function renderSlide() {
+  console.log(`\n📄 renderSlide 호출: 슬라이드 ${currentSlide + 1}`);
+  
   document.getElementById('slideNumber').textContent = `모듈 ${currentSlide + 1}/${totalSlides}`;
   document.getElementById('slideTitle').textContent = educationData[currentSlide].title;
   document.getElementById('slideContent').innerHTML = educationData[currentSlide].content;
   document.getElementById('prevBtn').disabled = currentSlide === 0;
+  
+  // 완료 상태 초기화
   audioCompleted = false;
   videoCompleted = false;
+  
+  console.log('→ 완료 상태 초기화 완료');
   
   // 영상 처리
   const currentSlideData = educationData[currentSlide];
@@ -1316,33 +1322,34 @@ function renderSlide() {
   const videoConfirmBtn = document.getElementById('videoConfirmBtn');
   
   if (currentSlideData.videoUrl) {
-    // 영상이 있는 슬라이드만 표시
+    // 영상이 있는 슬라이드
+    console.log('→ 영상 있음:', currentSlideData.videoUrl);
     videoSection.classList.add('active');
     videoSection.style.display = 'block';
     document.querySelector('.video-section h3').textContent = `📹 참고 영상 - ${currentSlideData.videoTitle}`;
     
-    // YouTube iframe 설정
     ytPlayer.src = `https://www.youtube.com/embed/${currentSlideData.videoUrl}?rel=0&modestbranding=1`;
     
-    // 상태 초기화
     document.getElementById('videoIcon').textContent = '⏳';
     document.getElementById('videoStatusText').textContent = '영상을 끝까지 시청하세요';
     document.getElementById('videoStatusText').classList.remove('completed');
     videoConfirmBtn.style.display = 'none';
     
-    // 30초 후 확인 버튼 표시
     setTimeout(() => {
       if (!videoCompleted && currentSlideData.videoUrl) {
         videoConfirmBtn.style.display = 'block';
       }
     }, 30000);
   } else {
-    // 영상이 없는 슬라이드는 완전히 숨김
+    // 영상이 없는 슬라이드
+    console.log('→ 영상 없음 - videoCompleted를 true로 설정');
     videoSection.classList.remove('active');
     videoSection.style.display = 'none';
     ytPlayer.src = '';
     videoConfirmBtn.style.display = 'none';
     videoCompleted = true; // 영상 없으면 완료 처리
+    
+    console.log('→ videoCompleted:', videoCompleted);
   }
   
   // 테스트 모드
@@ -1361,6 +1368,8 @@ function renderSlide() {
   document.getElementById('voiceIcon').classList.remove('playing');
   stopVoice();
   saveProgress(currentUser, currentSlide);
+  
+  console.log('✅ renderSlide 완료\n');
 }
 
 function nextSlide() {
@@ -1389,43 +1398,46 @@ function updateProgress() {
 }
 
 function playVoice() {
+  console.log('🎙️ playVoice 호출');
+  
   if (audioPlaying) {
+    console.log('→ 이미 재생 중, 중지');
     stopVoice();
     return;
   }
   stopVoice();
   
-  // 음성 파일 경로 (slide1.mp3 ~ slide15.mp3)
   const audioFile = `slide${currentSlide + 1}.mp3`;
+  console.log('→ 재생할 파일:', audioFile);
   
-  // HTML5 Audio 객체 생성
   currentAudio = new Audio(audioFile);
   
-  // 에러 처리
   currentAudio.onerror = () => {
-    console.error(`❌ 음성 파일을 찾을 수 없습니다: ${audioFile}`);
+    console.error(`❌ 음성 파일 오류: ${audioFile}`);
     alert(`음성 파일이 없습니다!\n${audioFile} 파일을 GitHub에 업로드해주세요.`);
     audioPlaying = false;
     document.getElementById('voiceBtn').classList.remove('playing');
     document.getElementById('voiceIcon').classList.remove('playing');
   };
   
-  // 재생 완료 이벤트
   currentAudio.onended = () => {
+    console.log('✅ 음성 재생 완료!');
     audioPlaying = false;
     audioCompleted = true;
+    console.log('→ audioCompleted를 true로 설정');
+    
     document.getElementById('voiceText').textContent = '✅ 음성 재생 완료!';
     document.getElementById('voiceBtn').textContent = '🔊 음성 다시 듣기';
     document.getElementById('voiceBtn').classList.remove('playing');
     document.getElementById('voiceIcon').classList.remove('playing');
     
+    console.log('→ checkCompletion 호출 예정');
     checkCompletion();
   };
   
-  // 재생 시작
   currentAudio.play()
     .then(() => {
-      console.log(`✅ 재생 중: ${audioFile}`);
+      console.log(`✅ 재생 시작: ${audioFile}`);
       audioPlaying = true;
       document.getElementById('voiceText').textContent = '음성 재생 중...';
       document.getElementById('voiceBtn').textContent = '⏸️ 음성 중지';
@@ -1433,7 +1445,7 @@ function playVoice() {
       document.getElementById('voiceIcon').classList.add('playing');
     })
     .catch(err => {
-      console.error('재생 오류:', err);
+      console.error('❌ 재생 오류:', err);
       alert('음성 재생에 실패했습니다. 파일을 확인해주세요.');
     });
 }
@@ -1687,6 +1699,7 @@ function confirmVideoWatched() {
     document.getElementById('videoStatusText').classList.add('completed');
     document.getElementById('videoConfirmBtn').style.display = 'none';
     
+    console.log('✅ 영상 완료 처리');
     checkCompletion();
   }
 }
@@ -1695,17 +1708,32 @@ function checkCompletion() {
   const currentSlideData = educationData[currentSlide];
   const hasVideo = currentSlideData.videoUrl;
   
+  console.log('=== checkCompletion 호출 ===');
+  console.log('현재 슬라이드:', currentSlide + 1);
+  console.log('영상 있음:', hasVideo);
+  console.log('audioCompleted:', audioCompleted);
+  console.log('videoCompleted:', videoCompleted);
+  
   // 영상이 있는 슬라이드: 음성 + 영상 둘 다 완료 필요
   if (hasVideo) {
+    console.log('→ 영상 있는 슬라이드: 둘 다 필요');
     if (audioCompleted && videoCompleted) {
+      console.log('✅ 둘 다 완료! 다음 버튼 활성화');
       document.getElementById('nextBtn').disabled = false;
+    } else {
+      console.log('⏳ 아직 미완료');
     }
   } else {
     // 영상이 없는 슬라이드: 음성만 완료
+    console.log('→ 영상 없는 슬라이드: 음성만 필요');
     if (audioCompleted) {
+      console.log('✅ 음성 완료! 다음 버튼 활성화');
       document.getElementById('nextBtn').disabled = false;
+    } else {
+      console.log('⏳ 음성 미완료');
     }
   }
+  console.log('=======================');
 }
 
 </script>
